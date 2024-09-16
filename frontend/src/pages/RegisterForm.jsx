@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { Card, Label, TextInput, Checkbox, Button } from 'flowbite-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Card, Label, TextInput, Button, Spinner, Alert } from 'flowbite-react';
+import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 import MyFooter from '../components/MyFooter';
+import PopoverPassword from '../components/PopoverPassword';
 import api from '../api';
 
 export function RegisterForm() {
@@ -10,6 +12,13 @@ export function RegisterForm() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setshowPassword] = useState('password');
+    const [registerLoading, setRegisterLoading] = useState(false)
+    const [successfulRegister, setSuccessfulRegister] = useState(false)
+    const navigate = useNavigate();
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d.*\d).{8,}$/
+    const passwordRequirements = `The password must contain at least 8 characters, 1 uppercase, 1 lowercase and 2 digits`
+
 
     const handleInputChange = (event)=>{
         const { name, value } = event.target;
@@ -23,13 +32,26 @@ export function RegisterForm() {
             setConfirmPassword(value)
         }
     }
-
+    const handleTogglePassword = (event) => {
+      event.preventDefault();
+      if (showPassword==='password'){
+         setshowPassword('text')
+      } else {
+         setshowPassword('password')
+      }
+   }
     const handleSubmit = async (event)=>{
         event.preventDefault();
+        setRegisterLoading(true)
                 
         if (password !== confirmPassword) {
             setError('Passwords do not match');
+            setRegisterLoading(false)
             return;
+        }else if(!passwordPattern.test(password)){
+            setError(passwordRequirements);
+            setRegisterLoading(fal)
+            return
         }
         try{
             const response = await api.post(`/auth/users/`, {
@@ -38,23 +60,34 @@ export function RegisterForm() {
                 password: password
             });
             if (response.status === 201) {
-                <Navigate to='/login' />
-            }
-        }catch(errror){
-            setError('The form data is not valid');
+              setSuccessfulRegister(true);
+              setTimeout(() => {
+                setSuccessfulRegister(false);
+                navigate('/login');
+              }, 2000);
+            };
+        }catch(error){
+          if(error.response.status === 400){
+            setError(Object.values(error.response.data))
+          }else{
+            setError("An unexpected error occurred.")
+          }
+          setRegisterLoading(false)
         }
     }
 
   return (
-    <div className='h-screen flex flex-col'>
-      <section className='flex items-center dark:bg-black h-[100vh]'>
-        <Card className="max-w-sm mx-auto mt-10 bg-transparent w-96">
+    <div className='h-screen flex flex-col bg-stone-50 dark:bg-black'>
+      {successfulRegister&&(<Alert icon={FaCheck} className='h-20 flex items-center text-2xl'>Register successful</Alert>)}
+      <section className='flex items-center dark:bg-black h-[100vh]'> 
+        <Card className="max-w-sm mx-auto mt-10 bg-transparent w-96 border border-black">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+
             <div>
               <div className="mb-2 block dark:text-white">
                 <Label htmlFor="username" value="Your username" color="white"/>
               </div>
-              <TextInput id="username" type="text" name='username' value={username} onChange={handleInputChange} placeholder="Enter username" required />
+              <TextInput id="username" type="text" name='username' autoComplete="username"  value={username} onChange={handleInputChange} placeholder="Enter username" required />
             </div>
             
               <div>
@@ -64,24 +97,35 @@ export function RegisterForm() {
                 <TextInput id="email" type="email"  name='email' value={email} onChange={handleInputChange} placeholder="Enter email" required />
               </div>
 
-            <div>
+            <div className="relative">
               <div className="mb-2 block dark:text-white">
                 <Label htmlFor="password" value="Your password" color="white"/>
               </div>
-              <TextInput id="password" type="password"  name='password' value={password} onChange={handleInputChange}required />
+              <PopoverPassword>
+                <TextInput id="password" type={showPassword} autoComplete="new-password" name='password' value={password} onChange={handleInputChange}required />
+                <button type='button' tabIndex={-1} onClick={handleTogglePassword} className='absolute right-2 top-[37px] mt-2 mr-2'>
+                  {showPassword==="password" ? <FaEye/> : <FaEyeSlash/>}
+                </button>
+              </PopoverPassword>
             </div>
-              <div>
+              <div className="relative">
                 <div className="mb-2 block dark:text-white">
                   <Label htmlFor="confirmPassword" value="Confirm your password"  color="white" />
                 </div>
-                <TextInput id="confirmPassword" type="password"  name='confirmPassword' value={confirmPassword} onChange={handleInputChange} required />
+                <PopoverPassword>
+                  <TextInput id="confirmPassword" type={showPassword} autoComplete="new-password"  name='confirmPassword' value={confirmPassword} onChange={handleInputChange} required />
+                    <button type='button' tabIndex={-1} onClick={handleTogglePassword} className='absolute right-2 top-[37px] mt-2 mr-2'>
+                    { showPassword==="password" ? <FaEye/> : <FaEyeSlash/>}
+                    </button>
+                  </PopoverPassword>
               </div>
 
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500 bg-red-200 px-2 py-1 rounded-md">{error}</p>}
 
             <p className='text-sm dark:text-white'><Link to="/login">Do you already have an account?</Link></p>
 
-            <Button type="submit" color="purple">
+            <Button type="submit" color="dark" className='flex gap-4'>
+              {registerLoading&&(<Spinner/>)}
               Register
             </Button>
           </form>

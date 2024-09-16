@@ -54,9 +54,3 @@ export function TodayCard({ newEntryTrigger }){
 
     )
 }
-
-
-
-
-
-
