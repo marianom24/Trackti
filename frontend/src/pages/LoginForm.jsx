@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Label, TextInput, Checkbox, Button, Alert } from 'flowbite-react';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import MyFooter from '../components/MyFooter';
 import { TokenManager } from '../TokenManager';
 import api from '../api'
@@ -9,6 +10,16 @@ export function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setshowPassword] = useState('password');
+
+    const handleTogglePassword = (event) => {
+      event.preventDefault();
+      if (showPassword==='password'){
+         setshowPassword('text')
+      } else {
+         setshowPassword('password')
+      }
+   }
     
     const handleInputChange = (event) => {
       const { name, value } = event.target;
@@ -58,7 +69,13 @@ export function LoginForm() {
               <div className="mb-2 block dark:text-white">
                 <Label htmlFor="password" value="Your password" color="white"/>
               </div>
-              <TextInput id="password"  type="password" name='password' value={password} onChange={handleInputChange} required />
+              <div className='relative'>
+                <TextInput id="password"  type={showPassword} name='password' value={password} onChange={handleInputChange} required />
+                <button type='button' tabIndex={-1} onClick={handleTogglePassword} className='absolute right-2 top-[5px] mt-2 mr-2'>
+                  {showPassword==="password" ? <FaEye/> : <FaEyeSlash/>}
+                </button>
+              </div>
+
             </div>
             {error && <Alert color="failure">
               <span className="font-medium">{error}</span>
@@ -68,7 +85,7 @@ export function LoginForm() {
               <Label htmlFor="remember">Remember me</Label>
             </div>
             <p className='text-sm dark:text-white'><Link to="/register">Don't have an account?</Link></p>
-            <Button type="submit" color="purple">
+            <Button type="submit" color="dark">
               Login
             </Button>
           </form>

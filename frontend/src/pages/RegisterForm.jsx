@@ -80,9 +80,8 @@ export function RegisterForm() {
     <div className='h-screen flex flex-col bg-stone-50 dark:bg-black'>
       {successfulRegister&&(<Alert icon={FaCheck} className='h-20 flex items-center text-2xl'>Register successful</Alert>)}
       <section className='flex items-center dark:bg-black h-[100vh]'> 
-        <Card className="max-w-sm mx-auto mt-10 bg-transparent w-96 border border-black">
+        <Card className="max-w-sm mx-auto mt-10 bg-transparent w-96 border">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-
             <div>
               <div className="mb-2 block dark:text-white">
                 <Label htmlFor="username" value="Your username" color="white"/>
