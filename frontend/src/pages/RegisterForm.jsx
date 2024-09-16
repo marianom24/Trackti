@@ -119,7 +119,9 @@ export function RegisterForm() {
                   </PopoverPassword>
               </div>
 
-            {error && <p className="text-red-500 bg-red-200 px-2 py-1 rounded-md">{error}</p>}
+            {error && <Alert color="failure">
+              <span className="font-medium">{error}</span>
+              </Alert>}
 
             <p className='text-sm dark:text-white'><Link to="/login">Do you already have an account?</Link></p>
 
