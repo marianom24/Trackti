@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, Label, TextInput, Checkbox, Button, Alert } from 'flowbite-react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import MyFooter from '../components/MyFooter';
+import NavTryDemo from '../components/NavTryDemo';
 import { TokenManager } from '../TokenManager';
 import api from '../api'
 
@@ -11,6 +12,7 @@ export function LoginForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showPassword, setshowPassword] = useState('password');
+    const navigate = useNavigate();
 
     const handleTogglePassword = (event) => {
       event.preventDefault();
@@ -44,19 +46,18 @@ export function LoginForm() {
 
         TokenManager.saveAccessToken(access_token);
         TokenManager.saveRefreshToken(refresh_token);
-        window.location.href = '/dashboard';
+        navigate('/dashboard');
       }catch (error){
         setError('Credentials are incorrect, please try again');
     }
 
   };
 
-
-
   return (
-    <div className="h-screen flex flex-col">
-      <section className='flex items-center dark:bg-black mx-auto my-auto'>
-        <Card className="max-w-sm mx-auto w-80 bg-transparent">
+    <div className="h-screen flex flex-col  dark:bg-black break:gap-12 break:pt-28">
+      <NavTryDemo/>
+      <section className='flex relative m-auto'>
+        <Card className="max-w-sm mx-auto w-96 bg-transparent small:w-80">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <div className="mb-2 block dark:text-white">
@@ -77,9 +78,11 @@ export function LoginForm() {
               </div>
 
             </div>
+
             {error && <Alert color="failure">
               <span className="font-medium">{error}</span>
             </Alert>}
+
             <div className="flex items-center gap-2 text-white">
               <Checkbox id="remember" />
               <Label htmlFor="remember">Remember me</Label>

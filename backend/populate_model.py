@@ -10,7 +10,7 @@ from django.utils import timezone
 from timetracker.models import TimeLog, User, Category
 
 def populate_timelogs():
-    user = User.objects.get(username='admin')
+    user = User.objects.get(username='demouser')
     categories = ['Work', 'Study', 'Read', 'Workout']
     
     # Crear entradas para agosto

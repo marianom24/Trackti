@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'sm':{ 'max': '520px' },
+        'small':{ 'max': '520px' },
         'break':{ 'max': '995px' },
     
       }

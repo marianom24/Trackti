@@ -10,7 +10,7 @@ export function LogoutButton  () {
     };
 
     return (
-        <Button onClick={handleLogout} color='gray' className='h-12'> <span className='flex items-center text-lg gap-2'><RiLogoutBoxLine />Logout</span></Button>
+        <Button onClick={handleLogout} color='gray' className='h-12 break:w-full'> <span className='flex items-center text-lg gap-2'><RiLogoutBoxLine />Logout</span></Button>
     );
 };
 

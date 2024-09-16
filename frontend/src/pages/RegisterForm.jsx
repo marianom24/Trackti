@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, Label, TextInput, Button, Spinner, Alert } from 'flowbite-react';
 import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 import MyFooter from '../components/MyFooter';
 import PopoverPassword from '../components/PopoverPassword';
 import api from '../api';
+import NavTryDemo from '../components/NavTryDemo';
 
 export function RegisterForm() {
     const [username, setUsername] = useState('');
@@ -77,10 +78,11 @@ export function RegisterForm() {
     }
 
   return (
-    <div className='h-screen flex flex-col bg-stone-50 dark:bg-black'>
+    <div className='h-screen flex flex-col bg-stone-50 dark:bg-black break:pt-28 break:gap-12'>
+      <NavTryDemo/>
       {successfulRegister&&(<Alert icon={FaCheck} className='h-20 flex items-center text-2xl'>Register successful</Alert>)}
-      <section className='flex items-center dark:bg-black h-[100vh]'> 
-        <Card className="max-w-sm mx-auto mt-10 bg-transparent w-96 border">
+      <section className='flex items-center dark:bg-black m-auto sm:pt:96'> 
+        <Card className="max-w-sm mx-auto bg-transparent w-96 border">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <div className="mb-2 block dark:text-white">
