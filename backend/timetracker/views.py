@@ -8,13 +8,14 @@ from django.utils import timezone
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
-
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 class LogTimeView(generics.ListCreateAPIView):
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
     permission_classes = [IsAuthenticated]
     serializer_class = TimeLogSerializer
     def get_queryset(self):
@@ -34,6 +35,7 @@ class SingleLogTimeView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
 class Stats(APIView):
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
