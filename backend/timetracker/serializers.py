@@ -2,6 +2,21 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Category, TimeLog
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.utils import datetime_to_epoch
+from datetime import timedelta
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)        
+        if user.groups.filter(name='Demousers').exists():
+            refresh_lifetime = timedelta(minutes=2)
+        else:
+            refresh_lifetime = timedelta(days=7)
+        token.payload['exp'] = datetime_to_epoch(token.current_time + refresh_lifetime)
+        
+        return token
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     class Meta(BaseUserCreateSerializer.Meta):

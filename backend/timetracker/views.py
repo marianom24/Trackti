@@ -4,11 +4,15 @@ from rest_framework.response import Response
 from .serializers import TimeLogSerializer
 from .models import TimeLog
 from rest_framework.permissions import IsAuthenticated
-from datetime import timedelta, datetime
 from django.utils import timezone
-import calendar
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import MyTokenObtainPairSerializer
 
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 class LogTimeView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
