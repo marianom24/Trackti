@@ -90,25 +90,15 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "railway",
-#         "USER": "postgres",
-#         "PASSWORD": "IFKRBOlZSytkROgHyWBfoBzOtMUawckl",
-#         "HOST": "junction.proxy.rlwy.net",
-#         "PORT": 28433,
-#     }
-# }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES = {'default': dj_database_url.parse(env('DATABASE_URL'))}
@@ -167,6 +157,9 @@ SIMPLE_JWT = {
 
 DJOSER = {
     'USER_ID_FIELD': 'username',
+    'SERIALIZERS': {
+        'user_create': 'timetracker.serializers.UserCreateSerializer',
+    },
 }
 
 

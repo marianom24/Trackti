@@ -1,6 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Category, TimeLog
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+
+class UserCreateSerializer(BaseUserCreateSerializer):
+    class Meta(BaseUserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'username', 'password', 'email')
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email is already in use")
+        return value
 
 class userSerializer(serializers.ModelSerializer):
     class Meta:
