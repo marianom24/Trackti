@@ -78,7 +78,7 @@ export function RegisterForm() {
     }
 
   return (
-    <div className='h-screen flex flex-col bg-stone-50 dark:bg-black break:pt-28 break:gap-12'>
+    <div className='h-screen flex flex-col bg-stone-50 dark:bg-black break:pt-28 break:gap-12 small:pt-30'>
       <NavTryDemo/>
       {successfulRegister&&(<Alert icon={FaCheck} className='h-20 flex items-center text-2xl'>Register successful</Alert>)}
       <section className='flex items-center dark:bg-black m-auto sm:pt:96'> 

@@ -98,7 +98,7 @@ DATABASES = {
 }
 
 
-POSTGRES_LOCALLY = False
+POSTGRES_LOCALLY = True
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES = {'default': dj_database_url.parse(env('DATABASE_URL'))}
@@ -166,9 +166,3 @@ DJOSER = {
     },
 }
 
-
-
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",  # Reemplaza con el dominio de tu frontend
-#     "http://127.0.0.1:3000",  # Otra forma de especificar localhost
-# ]

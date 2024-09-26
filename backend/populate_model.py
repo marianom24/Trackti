@@ -21,8 +21,8 @@ def populate_timelogs():
     #     TimeLog.objects.create(user=user, category=category, createdDate=date, duration=duration)
     
     # Crear entradas para septiembre
-    for _ in range(20):
-        date = datetime(2024, 9, random.randint(9, 12))
+    for _ in range(80):
+        date = datetime(2024, 9, random.randint(1, 30))
         category = Category.objects.get_or_create(slug=random.choice(categories))[0]
         duration = timedelta(minutes=random.randint(5, 60))
         TimeLog.objects.create(user=user, category=category, createdDate=date, duration=duration)
