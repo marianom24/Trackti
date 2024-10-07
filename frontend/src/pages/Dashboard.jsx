@@ -44,15 +44,15 @@ function Dashboard() {
         </Dropdown>
         </div>
       </nav>
-      <section className='flex flex-col p-12 w-5/6 mx-auto mt-20 gap-20 break:flex-col small:w-full'>
+      <section className='flex flex-col p-12 w-5/6 mx-auto mt-20 gap-20 break:flex-col small:w-full small:px-2'>
         <section className='grid grid-cols-2 gap-20 break:flex break:flex-col'>
           <Timer onSubmit={() => setNewEntryTrigger(prev => !prev)}/>
           <TodayCard newEntryTrigger={newEntryTrigger}/>
         </section>
         <StatsCard newEntryTrigger={newEntryTrigger} />
-        <section id="stats">
-          <LinearChart newEntryTrigger={newEntryTrigger} />
-        </section>
+      </section>
+      <section id="stats" className='w-5/6 mx-auto p-12 break:px-2 small:w-full'>
+        <LinearChart newEntryTrigger={newEntryTrigger} />
       </section>
       <MyFooter />
     </div>

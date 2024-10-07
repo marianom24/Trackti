@@ -72,7 +72,7 @@ export function LinearChart({newEntryTrigger}) {
   }
 
   return (
-    <CardComponent className="bg-stone-700 flex flex-col w-full items-center dark:bg-transparent break:h-auto">
+    <CardComponent className="bg-stone-700 flex flex-col w-full items-center dark:bg-transparent">
       <h1 className="flex dark:text-white text-2xl py-2 font-bold w-full sm:text-center">Your time in charts</h1>
       <div className="bg-black dark:bg-slate-400 h-1 w-full mb-2"></div>
       <div className="flex justify-between pb-5 w-full items-center">
@@ -94,7 +94,7 @@ export function LinearChart({newEntryTrigger}) {
           <YAxis />
           <Tooltip />
           <Legend  wrapperStyle={{ paddingTop: 20 }}  />
-          <Line connectNulls type="monotone" dataKey="Read" stroke="#FF5733" activeDot={{ w: 2 }} />
+          <Line connectNulls type="monotone" dataKey="Read" stroke="#FF5733" />
           <Line connectNulls type="monotone" dataKey="Study" stroke="#33c230" />
           <Line connectNulls type="monotone" dataKey="Work" stroke="#3357FF" />
           <Line connectNulls type="monotone" dataKey="Workout" stroke="#FF33A1" />

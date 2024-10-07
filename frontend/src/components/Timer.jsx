@@ -122,9 +122,9 @@ function Timer({ onSubmit }){
                 <Button onClick={lessTime} color='gray' className="w-10 rounded-full items-center">
                     <FaAngleLeft />
                 </Button>
-            <p className='text-6xl dark:text-white px-6'>
-                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </p>
+                <p className='text-6xl dark:text-white px-6 sm:px-2'>
+                    {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                </p>
                 <Button onClick={addTime} color='gray' className=" w-10 rounded-full items-center">
                     <FaAngleRight  />
                 </Button>
